@@ -57,7 +57,7 @@ export const RECAPTCHA_SITEKEY =
   '6Lc3HqUtAAAAAIp5xqXH_hzDWPOofp6IyaHsdDPd'
 
 const DEFAULT_WEBHOOK_URL = 'https://n8n.kalibresistem.com/webhook/cbam-form-submit'
-const DEFAULT_PRICING_WEBHOOK_URL = 'https://n8n.kalibresistem.com/webhook/pricing-inquiry'
+const DEFAULT_PRICING_WEBHOOK_URL = 'https://n8n.kalibresistem.com/webhook/package-proposal'
 const N8N_WEBHOOK_URL = (import.meta.env.VITE_N8N_WEBHOOK_URL as string | undefined) || DEFAULT_WEBHOOK_URL
 const N8N_PRICING_WEBHOOK_URL =
   (import.meta.env.VITE_N8N_WEBHOOK_URL_PRICING as string | undefined) || DEFAULT_PRICING_WEBHOOK_URL
@@ -203,26 +203,14 @@ export async function sendCbamSubmission(
 }
 
 export type PricingInquiryPayload = {
-  source: 'karbonkontrol-pricing-inquiry'
-  submittedAt: string
-  packageKey: PricingTierKey
-  packageTitle: string
-  packageBadge?: string | null
-  packageEyebrow?: string | null
-  packageHeadline?: string | null
-  packageFeatured?: boolean
-  recaptchaToken?: string
-  form: PricingInquiryForm
-  labels: {
-    elektrikAraligi?: string
-    yakitTipi?: string
-  }
-  meta: {
-    userAgent: string
-    locale: string
-    timezone: string
-    referrer: string
-    screen: { width: number; height: number; pixelRatio: number }
+  form: {
+    firma_adi: string
+    yetkili_adi: string
+    email: string
+    telefon: string
+    elektrik_tuketimi: string
+    yakit_tipi: string
+    paket_adi: string
   }
 }
 
@@ -251,36 +239,14 @@ export async function sendPricingInquiry(
   const yakitValue = (formData.yakitTipi || '') as YakitTipi | ''
 
   const payload: PricingInquiryPayload = {
-    source: 'karbonkontrol-pricing-inquiry',
-    submittedAt: new Date().toISOString(),
-    packageKey: pkg.key,
-    packageTitle: pkg.title,
-    packageBadge: pkg.badge ?? null,
-    packageEyebrow: pkg.eyebrow ?? null,
-    packageHeadline: pkg.headline ?? null,
-    packageFeatured: !!pkg.featured,
-    recaptchaToken: options?.recaptchaToken,
-    form: formData,
-    labels: {
-      elektrikAraligi: elektrikValue ? ELEKTRIK_ARALIK_LABELS[elektrikValue] : undefined,
-      yakitTipi: yakitValue ? YAKIT_TIPI_LABELS[yakitValue] : undefined,
-    },
-    meta: {
-      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
-      locale: typeof navigator !== 'undefined' ? navigator.language || 'tr-TR' : 'tr-TR',
-      timezone:
-        typeof Intl !== 'undefined' && 'DateTimeFormat' in Intl
-          ? Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
-          : 'UTC',
-      referrer: typeof document !== 'undefined' ? document.referrer || window.location.href : '',
-      screen:
-        typeof window !== 'undefined' && window.screen
-          ? {
-              width: window.screen.width || 0,
-              height: window.screen.height || 0,
-              pixelRatio: window.devicePixelRatio || 1,
-            }
-          : { width: 0, height: 0, pixelRatio: 1 },
+    form: {
+      firma_adi: formData.companyName,
+      yetkili_adi: formData.authorizedName,
+      email: formData.email,
+      telefon: formData.phone,
+      elektrik_tuketimi: elektrikValue ? ELEKTRIK_ARALIK_LABELS[elektrikValue] : '',
+      yakit_tipi: yakitValue ? YAKIT_TIPI_LABELS[yakitValue] : '',
+      paket_adi: pkg.title,
     },
   }
 
@@ -288,7 +254,7 @@ export async function sendPricingInquiry(
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'X-Client': 'karbonkontrol-landing',
-    'X-Source': 'pricing-inquiry',
+    'X-Source': 'package-proposal',
   }
   if (N8N_API_KEY) {
     headers['X-N8N-API-KEY'] = N8N_API_KEY
