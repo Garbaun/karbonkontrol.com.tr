@@ -145,18 +145,30 @@ export default function PackageInquiryModal({
     setSubmitting(true)
 
     const recaptchaToken = await getRecaptchaToken('pricing_submit')
+    if (!recaptchaToken) {
+      setSubmitting(false)
+      return
+    }
 
     try {
-      await sendPricingInquiry(form, selectedPackage, {
+      const result = await sendPricingInquiry(form, selectedPackage, {
         debug: import.meta.env.DEV,
-        recaptchaToken: recaptchaToken ?? undefined,
+        recaptchaToken,
       })
+      if (!result.ok) {
+        setRecaptchaError(
+          'Teklif talebiniz gönderilemedi. Lütfen bağlantınızı kontrol edip tekrar deneyin.',
+        )
+        return
+      }
+      setDone(true)
     } catch (err) {
-      // non-blocking: her durumda TEŞEKKÜR göster
-      if (import.meta.env.DEV) console.warn('[pricing] webhook hatası (non-blocking)', err)
+      if (import.meta.env.DEV) console.warn('[pricing] webhook hatası', err)
+      setRecaptchaError(
+        'Teklif talebiniz gönderilemedi. Lütfen bağlantınızı kontrol edip tekrar deneyin.',
+      )
     } finally {
       setSubmitting(false)
-      setDone(true)
     }
   }
 
