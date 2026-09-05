@@ -283,7 +283,7 @@ export default function PackageInquiryModal({
             ) : (
               <form onSubmit={handleSubmit} noValidate className="px-4 pt-5 pb-5 sm:px-8 sm:pt-7 sm:pb-7 space-y-4 sm:space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <label className="block">
+                  <label className="order-1 block">
                     <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       <Building2 className="w-3.5 h-3.5 text-[#004f4f]" /> Firma Adı
                     </span>
@@ -302,7 +302,7 @@ export default function PackageInquiryModal({
                     )}
                   </label>
 
-                  <label className="block">
+                  <label className="order-3 block">
                     <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       <Mail className="w-3.5 h-3.5 text-[#004f4f]" /> E-posta
                     </span>
@@ -321,7 +321,7 @@ export default function PackageInquiryModal({
                     )}
                   </label>
 
-                  <label className="block">
+                  <label className="order-2 block">
                     <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       <UserRound className="w-3.5 h-3.5 text-[#004f4f]" /> Yetkili Adı Soyadı
                     </span>
@@ -340,7 +340,7 @@ export default function PackageInquiryModal({
                     )}
                   </label>
 
-                  <label className="block sm:col-span-2">
+                  <label className="order-4 block">
                     <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       <Phone className="w-3.5 h-3.5 text-[#004f4f]" /> Telefon Numarası
                     </span>
@@ -359,7 +359,7 @@ export default function PackageInquiryModal({
                     )}
                   </label>
 
-                  <label className="block">
+                  <label className="order-5 block">
                     <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       <Zap className="w-3.5 h-3.5 text-[#004f4f]" /> Yıllık Elektrik Tüketimi
                     </span>
@@ -382,7 +382,7 @@ export default function PackageInquiryModal({
                     )}
                   </label>
 
-                  <label className="block">
+                  <label className="order-6 block">
                     <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                       <Flame className="w-3.5 h-3.5 text-[#004f4f]" /> Ana Yakıt Tipi
                     </span>
