@@ -15,6 +15,7 @@ export type PricingPackage = PricingPackageRef
 
 export type PricingInquiryForm = {
   companyName: string
+  authorizedName: string
   email: string
   phone: string
   elektrikAraligi: ElektrikAraligi | ''

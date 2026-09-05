@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   Sparkles,
   AlertCircle,
+  UserRound,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { RECAPTCHA_SITEKEY } from '@/lib/n8nCbam'
@@ -29,6 +30,7 @@ interface PackageInquiryModalProps {
 
 type FormState = {
   companyName: string
+  authorizedName: string
   email: string
   phone: string
   elektrikAraligi: ElektrikAraligi | ''
@@ -39,6 +41,7 @@ type Errors = Partial<Record<keyof FormState, string>>
 
 const INITIAL_FORM: FormState = {
   companyName: '',
+  authorizedName: '',
   email: '',
   phone: '',
   elektrikAraligi: '',
@@ -97,6 +100,8 @@ export default function PackageInquiryModal({
     const e: Errors = {}
     if (!form.companyName.trim()) e.companyName = 'Firma adını giriniz.'
     else if (form.companyName.trim().length < 2) e.companyName = 'Firma adı çok kısa.'
+    if (!form.authorizedName.trim()) e.authorizedName = 'Yetkili adı soyadı giriniz.'
+    else if (form.authorizedName.trim().length < 3) e.authorizedName = 'Yetkili adı soyadı çok kısa.'
     if (!form.email.trim()) e.email = 'E-posta adresini giriniz.'
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
       e.email = 'Geçerli bir e-posta adresi giriniz.'
@@ -312,6 +317,25 @@ export default function PackageInquiryModal({
                     {errors.email && (
                       <p className="mt-1.5 flex items-center gap-1 text-[12px] font-semibold text-rose-600">
                         <AlertCircle className="w-3.5 h-3.5" /> {errors.email}
+                      </p>
+                    )}
+                  </label>
+
+                  <label className="block">
+                    <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                      <UserRound className="w-3.5 h-3.5 text-[#004f4f]" /> Yetkili Adı Soyadı
+                    </span>
+                    <input
+                      type="text"
+                      value={form.authorizedName}
+                      onChange={(e) => setForm({ ...form, authorizedName: e.target.value })}
+                      placeholder="Ad Soyad"
+                      className={fieldCls('authorizedName')}
+                      autoComplete="name"
+                    />
+                    {errors.authorizedName && (
+                      <p className="mt-1.5 flex items-center gap-1 text-[12px] font-semibold text-rose-600">
+                        <AlertCircle className="w-3.5 h-3.5" /> {errors.authorizedName}
                       </p>
                     )}
                   </label>
