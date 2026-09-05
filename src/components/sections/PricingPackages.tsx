@@ -10,6 +10,7 @@ export type PricingPackage = {
   eyebrow: string
   title: string
   headline: string
+  audience: string
   description: string
   cta: string
   ctaVariant: 'solid' | 'outlined'
@@ -25,6 +26,7 @@ export const PRICING_PACKAGES: PricingPackage[] = [
     eyebrow: 'Başlangıç Paketi',
     title: 'Karbon Ayak İzi Başlangıç',
     headline: 'Sürdürülebilirlik Yolculuğunuza Sağlam Bir Adım Atın',
+    audience: 'İlk kez emisyon envanteri oluşturan işletmeler',
     description:
       'İşletmenizin temel emisyon kaynaklarını tespit edin, emisyon envanterinizi uluslararası standartlarda kayıt altına almaya başlayın.',
     cta: 'Teklif Alın',
@@ -44,6 +46,7 @@ export const PRICING_PACKAGES: PricingPackage[] = [
     eyebrow: 'Standart Paket',
     title: 'Karbon & CBAM Standart',
     headline: 'AB İhracatçıları İçin Eksiksiz Karbon Yönetimi',
+    audience: 'Düzenli AB ihracatı yapan orta ölçekli şirketler',
     description:
       'Tedarik zincirinizi kapsayan emisyon hesabı, ISO 14064 uyumlu raporlama ve şirket içi eğitimlerle AB standartlarına tam uyum sağlayın.',
     cta: 'Teklif Alın',
@@ -66,6 +69,7 @@ export const PRICING_PACKAGES: PricingPackage[] = [
     eyebrow: 'Profesyonel Paket',
     title: 'Kurumsal & SKDM Profesyonel',
     headline: 'Sınırda Karbon Riski Taşıyan Büyük Sanayi Tesisleri İçin',
+    audience: 'Çoklu tesis ve yüksek ihracat hacmine sahip sanayi kuruluşları',
     description:
       'Çoklu tesis yönetimi, ürün bazlı karbon ayak izi (PCF), CBAM vergi maliyeti simülasyonu ve akredite doğrulama süreçlerine tam hazırlık.',
     cta: 'Teklif Alın',
@@ -102,24 +106,24 @@ export const PricingPackages: FC<Props> = ({ onSelectPackage, className }) => {
 
       <div className="container-x relative section-padding py-14 sm:py-18 lg:py-22">
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100/80 border border-emerald-200/80 px-4 py-1.5 mb-4 shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white border border-emerald-200/80 px-4 py-1.5 mb-4 shadow-sm">
             <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
             <span className="text-[12.5px] sm:text-[13px] font-bold uppercase tracking-widest text-emerald-800">
-              KarbonKontrol Hizmet Paketleri
+              Size uygun danışmanlık seviyesi
             </span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[2.6rem] font-extrabold tracking-tight text-slate-900 leading-tight mb-4">
-            AB CBAM / SKDM Uyumlu{' '}
+            KarbonKontrol Hizmet Paketleri
+            <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-emerald-700 to-teal-600 bg-clip-text text-transparent">
-              Karbon Ayak İzi Yönetimi
-            </span>{' '}
-            Paketleri
+              AB CBAM / SKDM uyumuna hazır olun
+            </span>
           </h2>
 
           <p className="text-[14.5px] sm:text-base lg:text-[17px] leading-relaxed text-slate-700 max-w-2xl mx-auto">
-            İşletmenizin ölçeğine ve ihracat hacmine göre özelleştirilmiş paketlerimiz ile
-            sınırda karbon mekanizması riskini bertaraf edin, sürdürülebilir rekabet avantajı yakalayın.
+            İşletmenizin ölçeğine ve ihracat hacmine göre doğru seviyeyi seçin. İlk analizden
+            çoklu tesis yönetimine kadar ekibinizle birlikte ilerleyen bir yol haritası oluşturalım.
           </p>
         </div>
 
@@ -182,6 +186,17 @@ export const PricingPackages: FC<Props> = ({ onSelectPackage, className }) => {
                   >
                     {pkg.headline}
                   </p>
+                  <div
+                    className={cn(
+                      'mt-3 flex items-start gap-2 rounded-xl px-3 py-2 text-[12px] font-bold leading-snug',
+                      pkg.featured
+                        ? 'bg-white/10 text-white border border-white/15'
+                        : 'bg-emerald-50 text-emerald-900 border border-emerald-100',
+                    )}
+                  >
+                    <Building2 className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    <span>{pkg.audience}</span>
+                  </div>
                   <p
                     className={cn(
                       'mt-2.5 text-[13px] sm:text-[14px] leading-relaxed',
@@ -225,7 +240,7 @@ export const PricingPackages: FC<Props> = ({ onSelectPackage, className }) => {
                       )}
                     >
                       <Building2 className="w-4.5 h-4.5" />
-                      {pkg.cta}
+                      {pkg.cta} <span className="text-xs font-semibold opacity-75">→</span>
                     </button>
                   </div>
                 </div>
