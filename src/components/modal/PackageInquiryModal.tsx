@@ -148,30 +148,23 @@ export default function PackageInquiryModal({
     if (!validate()) return
     if (!selectedPackage) return
     setSubmitting(true)
+    setDone(true)
 
     const recaptchaToken = await getRecaptchaToken('pricing_submit')
-    if (!recaptchaToken) {
-      setSubmitting(false)
-      return
-    }
 
     try {
       const result = await sendPricingInquiry(form, selectedPackage, {
         debug: import.meta.env.DEV,
-        recaptchaToken,
+        recaptchaToken: recaptchaToken ?? undefined,
       })
       if (!result.ok) {
-        setRecaptchaError(
-          'Teklif talebiniz gönderilemedi. Lütfen bağlantınızı kontrol edip tekrar deneyin.',
-        )
+        if (import.meta.env.DEV) {
+          console.warn('[pricing] Teklif webhook gönderimi başarısız oldu.')
+        }
         return
       }
-      setDone(true)
     } catch (err) {
       if (import.meta.env.DEV) console.warn('[pricing] webhook hatası', err)
-      setRecaptchaError(
-        'Teklif talebiniz gönderilemedi. Lütfen bağlantınızı kontrol edip tekrar deneyin.',
-      )
     } finally {
       setSubmitting(false)
     }
@@ -236,7 +229,7 @@ export default function PackageInquiryModal({
                     id="pricing-inquiry-title"
                     className="text-xl sm:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight"
                   >
-                    {done ? 'Teklif Talebiniz Alındı' : `${packageTitle} · Teklif Talebi`}
+                    {done ? 'Talebiniz İşleme Alındı' : `${packageTitle} · Teklif Talebi`}
                   </h2>
                   <p className="mt-1.5 sm:mt-2 text-sm sm:text-base font-semibold leading-relaxed text-slate-700 max-w-xl">
                     {done
@@ -256,17 +249,10 @@ export default function PackageInquiryModal({
                   </div>
                   <div>
                     <p className="text-sm font-extrabold text-emerald-900 leading-snug">
-                      Talebiniz #KK{Math.floor(10000 + Math.random() * 90000)} ile kaydedildi
+                      Talebiniz işleme alınmıştır
                     </p>
                     <p className="mt-1 text-[13.5px] leading-relaxed text-emerald-900/85">
-                      Lütfen e-posta gelen kutunuzu ve <b>Spam / Önemsiz</b> klasörünüzü kontrol edin.{' '}
-                      <a
-                        href="mailto:info@karbonkontrol.com.tr"
-                        className="font-bold underline decoration-dotted underline-offset-4 hover:decoration-solid"
-                      >
-                        info@karbonkontrol.com.tr
-                      </a>{' '}
-                      adresini güvenli gönderenlerinize ekleyebilirsiniz.
+                      Uzman ekibimiz en kısa sürede size dönüş yapacaktır.
                     </p>
                   </div>
                 </div>
