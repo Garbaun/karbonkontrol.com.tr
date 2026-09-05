@@ -242,16 +242,13 @@ export default function Testimonials() {
                             viewBox="0 0 24 24"
                             fill="currentColor"
                             className={cn(
-                              'w-4 h-4 transition-colors shrink-0',
+                              'w-[19px] h-[19px] transition-colors shrink-0',
                               i < t.rating ? 'text-amber-400' : 'text-slate-200',
                             )}
                           >
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z" />
                           </svg>
                         ))}
-                        <span className="ml-2 shrink-0 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/60 rounded-full px-2.5 py-0.5 whitespace-nowrap">
-                          %{t.id}6 Memnuniyet
-                        </span>
                       </div>
 
                       {/* Metin (Kartı doldursun -> flex-1) */}
