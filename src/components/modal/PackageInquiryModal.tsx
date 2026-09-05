@@ -13,7 +13,6 @@ import {
   UserRound,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { RECAPTCHA_SITEKEY } from '@/lib/n8nCbam'
 import {
   sendPricingInquiry,
   ELEKTRIK_ARALIKLARI,
@@ -58,7 +57,6 @@ export default function PackageInquiryModal({
   const [errors, setErrors] = useState<Errors>({})
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
-  const [recaptchaError, setRecaptchaError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!open) return
@@ -83,7 +81,6 @@ export default function PackageInquiryModal({
         setErrors({})
         setSubmitting(false)
         setDone(false)
-        setRecaptchaError(null)
       }, 320)
       return () => window.clearTimeout(t)
     }
@@ -114,48 +111,17 @@ export default function PackageInquiryModal({
     return Object.keys(e).length === 0
   }
 
-  const getRecaptchaToken = async (action: string): Promise<string | null> => {
-    try {
-      const w = window as unknown as {
-        grecaptcha?: {
-          enterprise?: {
-            ready?: (fn: () => Promise<string>) => Promise<string>
-            execute?: (sitekey: string, opts: { action: string }) => Promise<string>
-          }
-        }
-      }
-      const grecaptcha = w.grecaptcha?.enterprise
-      if (!grecaptcha || !grecaptcha.execute) {
-        setRecaptchaError('reCAPTCHA yüklenemedi. Lütfen sayfayı yenileyip tekrar deneyin.')
-        return null
-      }
-      if (grecaptcha.ready) {
-        return await grecaptcha.ready(async () => {
-          return await (grecaptcha.execute?.(RECAPTCHA_SITEKEY, { action }) ?? Promise.resolve(''))
-        })
-      }
-      return (await grecaptcha.execute?.(RECAPTCHA_SITEKEY, { action })) ?? null
-    } catch (err) {
-      setRecaptchaError('reCAPTCHA doğrulanamadı. Lütfen tekrar deneyin.')
-      return null
-    }
-  }
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (submitting || done) return
-    setRecaptchaError(null)
     if (!validate()) return
     if (!selectedPackage) return
     setSubmitting(true)
     setDone(true)
 
-    const recaptchaToken = await getRecaptchaToken('pricing_submit')
-
     try {
       const result = await sendPricingInquiry(form, selectedPackage, {
         debug: import.meta.env.DEV,
-        recaptchaToken: recaptchaToken ?? undefined,
       })
       if (!result.ok) {
         if (import.meta.env.DEV) {
@@ -392,15 +358,8 @@ export default function PackageInquiryModal({
                   </label>
                 </div>
 
-                {recaptchaError && (
-                  <div className="flex items-start gap-2.5 rounded-2xl border border-rose-200/80 bg-rose-50 px-4 py-3 shadow-sm">
-                    <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
-                    <p className="text-[13.5px] font-semibold text-rose-800 leading-snug">{recaptchaError}</p>
-                  </div>
-                )}
-
                 <p className="text-[12px] leading-snug text-slate-500">
-                  Bu form reCAPTCHA Enterprise ile korunmaktadır. Gönder butonuna tıklayarak{' '}
+                  Gönder butonuna tıklayarak{' '}
                   <a
                     href="https://policies.google.com/privacy"
                     target="_blank"

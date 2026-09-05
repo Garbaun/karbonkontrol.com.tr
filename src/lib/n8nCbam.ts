@@ -217,7 +217,7 @@ export type PricingInquiryPayload = {
 export async function sendPricingInquiry(
   formData: PricingInquiryForm,
   pkg: PricingPackage,
-  options?: { debug?: boolean; recaptchaToken?: string },
+  options?: { debug?: boolean },
 ): Promise<{ ok: boolean; skipped?: boolean; status?: number; statusText?: string }> {
   if (!N8N_PRICING_WEBHOOK_URL) {
     if (options?.debug) {
