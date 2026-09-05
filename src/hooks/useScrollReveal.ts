@@ -24,7 +24,8 @@ export function useScrollReveal(options: UseScrollRevealOptions = {}) {
       const elements = gsap.utils.toArray<HTMLElement>(selector)
 
       elements.forEach((el, i) => {
-        const delay = Number(el.getAttribute('data-delay') || 0) + i * 0.08
+        const useStagger = el.getAttribute('data-stagger') !== 'false'
+        const delay = Number(el.getAttribute('data-delay') || 0) + (useStagger ? i * 0.08 : 0)
         const y = Number(el.getAttribute('data-y') || 30)
         const opacity = Number(el.getAttribute('data-opacity') ?? 0)
 

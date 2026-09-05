@@ -231,6 +231,7 @@ export function About({ onOpenBlog }: AboutProps = {}) {
                 key={post.slug}
                 className="group relative flex flex-col rounded-3xl bg-white border border-slate-200/60 p-5 lg:p-6 shadow-soft hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 overflow-hidden"
                 data-reveal
+                data-stagger="false"
                 data-delay={String(0.02 * idx)}
               >
                 <span
