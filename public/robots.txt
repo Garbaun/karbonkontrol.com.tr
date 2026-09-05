@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /.trae/
+
+# Sitemap URL (Search Console submit)
+Sitemap: https://karbonkontrol.com.tr/sitemap.xml
