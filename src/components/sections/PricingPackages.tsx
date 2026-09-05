@@ -134,26 +134,26 @@ export const PricingPackages: FC<Props> = ({ onSelectPackage, className }) => {
               <article
                 key={pkg.key}
                 className={cn(
-                  'relative group flex flex-col w-full h-full bg-white border rounded-3xl overflow-hidden transition-all duration-300 shadow-sm',
+                  'relative group flex flex-col w-full h-full bg-white border border-[#ffcb7d] rounded-3xl overflow-hidden transition-all duration-300 shadow-sm',
                   pkg.featured
-                    ? 'border-[#004f4f] border-2 shadow-[0_20px_45px_-12px_rgba(0,79,79,0.28)] -translate-y-2 lg:-translate-y-3'
-                    : 'border-slate-200/80 shadow-soft hover:shadow-lg hover:-translate-y-0.5 hover:border-emerald-200/70',
+                    ? 'border-2 shadow-[0_20px_45px_-12px_rgba(0,79,79,0.28)] -translate-y-2 lg:-translate-y-3'
+                    : 'shadow-soft hover:shadow-lg hover:-translate-y-0.5',
                 )}
               >
                 {pkg.featured && pkg.badge && (
-                  <div className="absolute -top-0.5 left-1/2 -translate-x-1/2 z-10">
-                    <div className="bg-[#004f4f] text-[#ffffd9] font-extrabold tracking-wide px-5 py-1.5 rounded-b-xl shadow-lg flex items-center gap-2 text-[12px] sm:text-[12.5px] uppercase">
+                  <div className="absolute top-4 right-4 z-10">
+                    <div className="flex h-[76px] w-[76px] rotate-3 flex-col items-center justify-center gap-1 rounded-full border-4 border-[#fff1bd] bg-gradient-to-br from-[#ffe9a3] via-[#ffcb7d] to-[#d99a32] px-2 text-center text-[9px] font-extrabold uppercase leading-tight tracking-wide text-[#704600] shadow-[0_8px_18px_-6px_rgba(151,94,10,0.7)]">
                       <Award className="w-3.5 h-3.5" />
-                      {pkg.badge}
+                      <span>{pkg.badge}</span>
                     </div>
                   </div>
                 )}
 
                 <div
                   className={cn(
-                    'px-5 pt-6 pb-5 sm:px-7 sm:pt-7 sm:pb-6 border-b transition-colors',
+                    'px-5 pr-24 pt-6 pb-5 sm:px-7 sm:pr-28 sm:pt-7 sm:pb-6 border-b transition-colors',
                     pkg.featured
-                      ? 'bg-gradient-to-b from-[#004f4f] via-[#00635f] to-[#004f4f] border-emerald-200/30 text-white'
+                      ? 'bg-gradient-to-b from-[#004f4f] via-[#00635f] to-[#004f4f] border-[#ffcb7d]/70 text-white'
                       : 'bg-gradient-to-b from-slate-50 via-white to-white border-slate-100 text-slate-900',
                   )}
                 >
