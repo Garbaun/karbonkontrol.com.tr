@@ -182,7 +182,7 @@ export default function Testimonials() {
             Müşteri Deneyimleri
           </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#2c3135] mb-5">
-            500+ Kurumun Güvendiği{' '}
+            50+ Kurumun Güvendiği{' '}
             <span className="text-emerald-700">Çözüm Ortağımız</span>
           </h2>
           <p className="text-base md:text-lg text-[#2c3135] opacity-85 leading-relaxed font-medium max-w-2xl mx-auto">
